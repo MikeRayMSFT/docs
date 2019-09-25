@@ -10,7 +10,7 @@ ms.assetid: 43ae5dd3-50f5-43a8-8d01-e37a61664176
 Snapshot isolation enhances concurrency for OLTP applications.  
   
 ## Understanding Snapshot Isolation and Row Versioning  
- Once snapshot isolation is enabled, updated row versions for each transaction are maintained in **tempdb**. A unique transaction sequence number identifies each transaction, and these unique numbers are recorded for each row version. The transaction works with the most recent row versions having a sequence number before the sequence number of the transaction. Newer row versions created after the transaction has begun are ignored by the transaction.  
+Once snapshot isolation is enabled, updated row versions for each transaction are maintained in **tempdb**. A unique transaction sequence number identifies each transaction, and these unique numbers are recorded for each row version. The transaction works with the most recent row versions having a sequence number before the sequence number of the transaction. Newer row versions created after the transaction has begun are ignored by the transaction.  
   
  The term "snapshot" reflects the fact that all queries in the transaction see the same version, or snapshot, of the database, based on the state of the database at the moment in time when the transaction begins. No locks are acquired on the underlying data rows or data pages in a snapshot transaction, which permits other transactions to execute without being blocked by a prior uncompleted transaction. Transactions that modify data do not block transactions that read data, and transactions that read data do not block transactions that write data, as they normally would under the default READ COMMITTED isolation level in SQL Server. This non-blocking behavior also significantly reduces the likelihood of deadlocks for complex transactions.  
   
@@ -20,10 +20,10 @@ Snapshot isolation enhances concurrency for OLTP applications.
   
 ```sql  
 ALTER DATABASE MyDatabase  
-SET ALLOW_SNAPSHOT_ISOLATION ON  
+SET ALLOW_SNAPSHOT_ISOLATION ON;  
   
 ALTER DATABASE MyDatabase  
-SET READ_COMMITTED_SNAPSHOT ON  
+SET READ_COMMITTED_SNAPSHOT ON;  
 ```  
   
  Setting the READ_COMMITTED_SNAPSHOT ON option allows access to versioned rows under the default READ COMMITTED isolation level. If the READ_COMMITTED_SNAPSHOT option is set to OFF, you must explicitly set the Snapshot isolation level for each session in order to access versioned rows.  
